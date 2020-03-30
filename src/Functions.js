@@ -18,7 +18,7 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
   }
 
   const globalFilterFunction=(rows,id,filterValue)=>{
-    console.log("custom",rows,id,filterValue)
+    console.log("global",rows,id,filterValue)
     return rows
     }
   // Let the table remove the filter if the string is empty

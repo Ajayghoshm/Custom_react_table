@@ -13,7 +13,7 @@ const newPerson = () => {
   const statusChance = Math.random();
   return {
     id: Math.random(),
-    custom:<div>{namor.generate({ words: 1, numbers: 0 })}</div>,
+    custom:namor.generate({ words: 1, numbers: 0 }),
     firstName: {ajay:namor.generate({ words: 2, numbers: 0 }),name:namor.generate({ words: 2, numbers: 0 })},
     lastName: namor.generate({ words: 1, numbers: 0 }),
     age: Math.floor(Math.random() * 30),

@@ -80,7 +80,8 @@ function Table({ columns, data }) {
       initialState: { pageIndex: 0 },
       filterTypes,
       sortTypes,
-      globalFilter:"custom",
+      getRowId:React.useCallback(row => row.id, []),
+      //globalFilter:"custom",
       manualSorting:true
     },
     useGlobalFilter,
