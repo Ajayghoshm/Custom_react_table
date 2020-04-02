@@ -12,10 +12,7 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
         : true
     })
   }
-  const customFilter=(rows,id,filterValue)=>{
-  console.log("custom",rows,id,filterValue)
-  return rows
-  }
+
 
   const globalFilterFunction=(rows,id,filterValue)=>{
     console.log("global",rows,id,filterValue)
@@ -33,5 +30,28 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
     return rowA.values[columnId] - rowB.values[columnId];
   });
 
+  const numberFilterFunction = (rows, id, filterValue) => {
+    console.log("numberFilter", id, rows, filterValue)
+    return rows.filter(row => {
+      const rowValue = row.values[id]
+      console.log("number", rowValue)
+      return rowValue !== undefined && rowValue.toString().indexOf(filterValue)
+        ? false
+        : true
+    })
+  }
 
-  export {globalFilterFunction,fuzzyTextFilterFn,customSort}
+  const textFilterFunction = (rows, id, filterValue) => {
+    return rows.filter(row => {
+      const rowValue = row.values[id]
+      return rowValue !== undefined
+        ? String(rowValue)
+          .toLowerCase()
+          .startsWith(String(filterValue).toLowerCase())
+        : true
+    })
+  }
+
+
+
+  export {globalFilterFunction,fuzzyTextFilterFn,customSort,numberFilterFunction,textFilterFunction}

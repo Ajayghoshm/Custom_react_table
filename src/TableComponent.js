@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment,useState } from "react";
 import {
   useTable,
   useSortBy,
@@ -8,6 +8,7 @@ import {
   useBlockLayout,
   useRowSelect
 } from "react-table";
+import { Styles, BlockStyles } from "./TableStyle";
 
 import {
   GlobalFilterComponent,
@@ -19,8 +20,11 @@ import {
 } from "./Components";
 
 
-import {fuzzyTextFilterFn,globalFilterFunction} from "./Functions"
+import { fuzzyTextFilterFn, globalFilterFunction,numberFilterFunction,textFilterFunction} from "./Functions"
+
 function Table({ columns, data }) {
+
+  const [filterToggle, setfilterToggle] = useState(false)
   const defaultColumn = React.useMemo(
     () => ({
       // Let's set up our default Filter UI
@@ -32,25 +36,18 @@ function Table({ columns, data }) {
   const sortTypes = React.useMemo(
     () => ({
       custom: fuzzyTextFilterFn,
-    }),[])
+    }), [])
+
+
+
 
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
       fuzzyText: fuzzyTextFilterFn,
-      custom:globalFilterFunction,
-      // Or, override the default text filter to use
-      // "startWith"
-      text: (rows, id, filterValue) => {
-        return rows.filter(row => {
-          const rowValue = row.values[id]
-          return rowValue !== undefined
-            ? String(rowValue)
-                .toLowerCase()
-                .startsWith(String(filterValue).toLowerCase())
-            : true
-        })
-      },
+      custom: globalFilterFunction,
+      text: textFilterFunction,
+      number: numberFilterFunction,
     }),
     []
   )
@@ -80,9 +77,9 @@ function Table({ columns, data }) {
       initialState: { pageIndex: 0 },
       filterTypes,
       sortTypes,
-      getRowId:React.useCallback(row => row.id, []),
+      getRowId: React.useCallback(row => row.id, []),
       //globalFilter:"custom",
-      manualSorting:true
+      manualSorting: true
     },
     useGlobalFilter,
     useFilters,
@@ -94,19 +91,20 @@ function Table({ columns, data }) {
       hooks.visibleColumns.push(columns => [
         {
           id: "selection",
+          width:50,
           Header: ({ getToggleAllRowsSelectedProps }) => (
-            <div>
+            <Fragment>
               <IndeterminateCheckboxComponent
                 {...getToggleAllRowsSelectedProps()}
               />
-            </div>
+            </Fragment>
           ),
           Cell: ({ row }) => (
-            <div>
+            <Fragment>
               <IndeterminateCheckboxComponent
                 {...row.getToggleRowSelectedProps()}
               />
-            </div>
+            </Fragment>
           )
         },
         ...columns
@@ -116,12 +114,16 @@ function Table({ columns, data }) {
 
   return (
     <>
+    <div style={{display:"flex",justifyContent:"space-between",borderTop:"1px solid black"}}>
       <GlobalFilterComponent
         preGlobalFilteredRows={preGlobalFilteredRows}
         setGlobalFilter={setGlobalFilter}
         globalFilter={state.globalFilter}
       />
-      <div>{Object.keys(selectedRowIds)}</div>
+      <button onClick={()=>setfilterToggle(state=>!state)}>Toggle</button>
+      </div>
+      <BlockStyles>
+
       <div {...getTableProps()} className="table">
         <div>
           {headerGroups.map((headerGroup, i) => (
@@ -129,16 +131,18 @@ function Table({ columns, data }) {
               {headerGroup.headers.map(column => (
                 <div {...column.getHeaderProps()} className="tr">
                   <div {...column.getSortByToggleProps()} className="th">
+                    <div>
                     {column.render("Header")}
                     <span>
                       {column.isSorted
                         ? column.isSortedDesc
-                          ? " 🔽"
-                          : " 🔼"
+                          ? <>&darr;</>
+                          : <>&uarr;</>	
                         : ""}
                     </span>
+                    </div>
                   </div>
-                  <div>{column.canFilter ? column.render("Filter") : null}</div>
+                  {filterToggle?<div>{column.canFilter ? column.render("Filter") : null}</div>:""}
                 </div>
               ))}
             </div>
@@ -161,6 +165,8 @@ function Table({ columns, data }) {
           })}
         </div>
       </div>
+      </BlockStyles>
+      <div style={{display:"flex",justifyContent:"center"}}>
       <button onClick={() => previousPage()} disabled={!canPerviousPage}>
         Previous
       </button>
@@ -175,14 +181,17 @@ function Table({ columns, data }) {
       <button onClick={() => nextPage()} disabled={!canNextPage}>
         Next
       </button>
+      </div>
       <pre>
-        <code>{JSON.stringify({state,
+        <code>{JSON.stringify({
+          state,
           'selectedRows Ids': selectedFlatRows.map(
-                d => d.original.id
-              ),}, null, 2)}</code>
+            d => d.original.id
+          ),
+        }, null, 2)}</code>
       </pre>
     </>
   );
 }
 
-export {Table}
+export { Table }

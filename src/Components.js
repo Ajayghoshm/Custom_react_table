@@ -163,6 +163,7 @@ function NumberRangeColumnFilterComponent({
 
 const IndeterminateCheckboxComponent = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
+    console.log("Rest",rest)
     const defaultRef = React.useRef();
     const resolvedRef = ref || defaultRef;
 
@@ -171,9 +172,9 @@ const IndeterminateCheckboxComponent = React.forwardRef(
     }, [resolvedRef, indeterminate]);
 
     return (
-      <>
+      <div style={{margin:"auto",display:"flex",justifyContent:"center"}}>
         <input type="checkbox" ref={resolvedRef} {...rest} />
-      </>
+      </div>
     );
   }
 );

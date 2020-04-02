@@ -33,11 +33,12 @@ const Styles = styled.div`
 
 const BlockStyles = styled.div`
   padding: 1rem;
+  overflow:auto;
+  border: 1px solid black;
 
   .table {
     display: inline-block;
     border-spacing: 0;
-    border: 1px solid black;
 
     .tr {
       :last-child {
@@ -49,11 +50,10 @@ const BlockStyles = styled.div`
 
     .th,
     .td {
-      margin: 0;
+      margin: auto;
+      display:flex;
+      justify-content:space-between;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
       :last-child {
         border-right: 0;
       }
