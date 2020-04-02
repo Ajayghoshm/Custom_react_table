@@ -35,7 +35,7 @@ function App() {
 
           {
             id:"hai",
-            Header: "First Name",
+            Header: "Component",
             accessor: "firstName",
             minWidth: 150,
             filter:'fuzzyText',
@@ -48,14 +48,21 @@ function App() {
           },
 
           {
-            Header: "Custom",
+            Header: "Object",
             accessor: "custom",
             minWidth: 150,
             sortType: customSort,
             filter:"custom"
           },
           {
-            Header: "Last Name",
+            Header: "Array",
+            accessor: "array",
+            minWidth: 150,
+            sortType: customSort,
+            filter:"custom"
+          },
+          {
+            Header: "Normal",
             accessor: "lastName",
             sortType: customSort,
             minWidth: 150,
@@ -63,21 +70,21 @@ function App() {
             filter: "fuzzyText"
           },
           {
-            Header: "Age",
+            Header: "Slider",
             accessor: "age",
             minWidth: 150,
             Filter: SliderColumnFilterComponent,
             filter: "equals"
           },
           {
-            Header: "Visits",
+            Header: "Number",
             accessor: "visits",
             minWidth: 150,
             Filter: NumberRangeColumnFilterComponent,
             filter: "between"
           },
           {
-            Header: "Status",
+            Header: "Select",
             accessor: "status",
             minWidth: 150,
             Filter: SelectColumnFilterComponent,
