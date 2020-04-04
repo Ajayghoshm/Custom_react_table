@@ -1,31 +1,13 @@
 import React from "react";
 import {
-  GlobalFilterComponent,
-  DefaultColumnFilterComponent,
   SelectColumnFilterComponent,
   SliderColumnFilterComponent,
   NumberRangeColumnFilterComponent,
   IndeterminateCheckboxComponent
-} from "./Components";
-import matchSorter from "match-sorter";
-import { Styles, BlockStyles } from "./TableStyle";
-import makeData from "./makeData";
-import { Table } from "./TableComponent"
-import { customSort } from "./Functions"
+} from "./Table/Components";
 
-// Define a custom filter filter function!
-function filterGreaterThan(rows, id, filterValue) {
-  return rows.filter(row => {
-    const rowValue = row.values[id];
-    return rowValue >= filterValue;
-  });
-}
-
-// This is an autoRemove method on the filter function that
-// when given the new filter value and returns true, the filter
-// will be automatically removed. Normally this is just an undefined
-// check, but here, we want to remove the filter if it's not a number
-filterGreaterThan.autoRemove = val => typeof val !== "number";
+import makeData from "./Table/makeData";
+import Table from './Table/index'
 
 function App() {
 
@@ -37,7 +19,7 @@ function App() {
         accessor: "id",
         minWidth: 50,
         filter: 'number',
-        sortType: customSort,
+        sortType: "numberSort",
       },
       {
         id: "number",
@@ -45,7 +27,7 @@ function App() {
         accessor: "number",
         minWidth: 50,
         filter: 'number',
-        sortType: customSort,
+        sortType: "numberSort",
       },
       {
         id: "string",
@@ -53,7 +35,7 @@ function App() {
         accessor: "string",
         minWidth: 50,
         filter: 'text',
-        sortType: customSort,
+        sortType: "stringSort",
       },
       {
         id: "boolean",
@@ -61,30 +43,42 @@ function App() {
         accessor: "boolean",
         minWidth: 150,
         filter: 'fuzzyText',
-        sortType: customSort,
+        sortType: "numberSort",
       },
       {
+        id:"custom",
         Header: "Object",
         accessor: "object",
         minWidth: 150,
-        //sortType: customSort,
+        sortType: (rowA,rowB,columnId,desc)=>{
+          //name is the object key which you need to sort based on
+          let StringA=rowA.values[columnId].name
+          let StringB=rowB.values[columnId].name
+          console.debug("sort",StringA,StringB)
+        return StringA.localeCompare(StringB)
+        },
         // you can have custom filter logic as per requirement, you can have array , object and combination of many,
         // Currently facing issue with component passed as an object
         filter: (rowvalues,id,filtervalue)=>{
-          console.log("customeFilter",rowvalues)
+          console.log("customeFilter",rowvalues,id,filtervalue)
           return rowvalues.filter(item=>{
-            return item.values.object["ghosh"]===filtervalue?true:false
+            console.log("customeFilteritem",item.values[id].name)
+            return item.values[id].name.includes(filtervalue)?true:false
           })
         },
         Cell:(props)=>(<div>{props.cell.value.name}</div>)
       },
       {
-        id: "Component",
+        id: "component",
         Header: "Component",
         accessor: "component",
         minWidth: 150,
-        filter: 'component',
-        sortType: customSort,
+        filter: (rowvalues,id,filterValue)=>{
+
+        },
+        sortType:()=>{
+
+        },
         Cell:(value)=> {
           return <a href="#">{value.cell.render(value.cell.value)}</a>
         },
@@ -92,14 +86,16 @@ function App() {
 
 
       {
+        id:"no1",
         Header: "Normal",
         accessor: "lastName",
-        sortType: customSort,
+        sortType: "numberSort",
         minWidth: 150,
         // Use our custom `fuzzyText` filter on this column
         filter: "fuzzyText"
       },
       {
+        id:"no2",
         Header: "Slider",
         accessor: "age",
         minWidth: 150,
@@ -107,6 +103,7 @@ function App() {
         filter: "equals"
       },
       {
+        id:"no3",
         Header: "Number",
         accessor: "visits",
         minWidth: 150,
@@ -114,30 +111,41 @@ function App() {
         filter: "between"
       },
       {
-        Header: "Select",
+        id:"no4",
+        Header:"Select",
         accessor: "status",
         minWidth: 150,
         Filter: SelectColumnFilterComponent,
         filter: "includes"
       },
       {
+        id:"n05",
         Header: "Profile Progress",
         accessor: "progress",
         minWidth: 150,
         Filter: SliderColumnFilterComponent,
-        filter: filterGreaterThan
+        filter: (rows, id, filterValue)=> {
+          return rows.filter(row => {
+            const rowValue = row.values[id];
+            return rowValue >= filterValue;
+          });
+        }
       }],
     []
   );
 
   const data = React.useMemo(() => makeData(100), []);
 
+  const globalFilterFunction=(rows)=>{
+    console.log("Write the custom global filter")
+    return rows
+  }
+
   return (
     <>
     <div style={{display:"flex",justifyContent:"center"}}>
-    <h3>Table Component</h3>
     </div>
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} heading={'heading'} globalFilterFunction={globalFilterFunction} />
     </>
   );
 }

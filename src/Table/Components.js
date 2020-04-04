@@ -6,7 +6,6 @@ const GlobalFilterComponent = ({
   setGlobalFilter
 }) => {
   const count = preGlobalFilteredRows.length;
-  console.log("pre",preGlobalFilteredRows)
   return (
     <span>
       <input
@@ -163,7 +162,6 @@ function NumberRangeColumnFilterComponent({
 
 const IndeterminateCheckboxComponent = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
-    console.log("Rest",rest)
     const defaultRef = React.useRef();
     const resolvedRef = ref || defaultRef;
 
