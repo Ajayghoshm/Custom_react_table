@@ -12,8 +12,14 @@ const range = len => {
 const newPerson = () => {
   const statusChance = Math.random();
   return {
-    id: Math.random(),
-    custom:<div>{namor.generate({ words: 1, numbers: 0 })}</div>,
+    id:  parseInt(Math.random() * (1000 - 10) + 10),
+    number:parseInt(Math.random() * (1000 - 10) + 10),
+    string:namor.generate({ words: 1, numbers: 0 }),
+    boolean:true,
+    object:{name:namor.generate({ words: 1, numbers: 0 }),ghosh:"12"},
+    array:[namor.generate({ words: 1, numbers: 0 }),namor.generate({ words: 1, numbers: 0 })],
+    arrayOfObject: {ajay:namor.generate({ words: 2, numbers: 0 }),name:namor.generate({ words: 2, numbers: 0 })},
+    component:<div value={"name"}><h6>hai</h6></div>,
     firstName: {ajay:namor.generate({ words: 2, numbers: 0 }),name:namor.generate({ words: 2, numbers: 0 })},
     lastName: namor.generate({ words: 1, numbers: 0 }),
     age: Math.floor(Math.random() * 30),
@@ -25,6 +31,7 @@ const newPerson = () => {
         : statusChance > 0.33
         ? "complicated"
         : "single"
+
   };
 };
 

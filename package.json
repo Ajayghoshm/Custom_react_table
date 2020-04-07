@@ -12,6 +12,7 @@
     "match-sorter": "^4.1.0",
     "namor": "^1.1.2",
     "react": "^16.8.6",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-table": "latest",

@@ -6,7 +6,6 @@ const GlobalFilterComponent = ({
   setGlobalFilter
 }) => {
   const count = preGlobalFilteredRows.length;
-  console.log("pre",preGlobalFilteredRows)
   return (
     <span>
       <input
@@ -171,9 +170,9 @@ const IndeterminateCheckboxComponent = React.forwardRef(
     }, [resolvedRef, indeterminate]);
 
     return (
-      <>
+      <div style={{margin:"auto",display:"flex",justifyContent:"center"}}>
         <input type="checkbox" ref={resolvedRef} {...rest} />
-      </>
+      </div>
     );
   }
 );
