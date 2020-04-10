@@ -23,28 +23,31 @@ const Styles = styled.div`
       border-bottom: 1px solid black;
       border-right: 1px solid black;
       background: white;
+      &hover {
+        background-color: black;
+      }
 
       :last-child {
         border-right: 0;
       }
     }
     .resizer {
-        display: inline-block;
-        background: blue;
-        width: 10px;
-        height: 100%;
-        position: absolute;
-        right: 0;
-        top: 0;
-        /* transform: translateX(50%); */
-        z-index: 1;
-        ${'' /* prevents from scrolling while dragging on touch devices */}
-        touch-action:none;
+      display: inline-block;
+      background: blue;
+      width: 10px;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      /* transform: translateX(50%); */
+      z-index: 1;
+      ${"" /* prevents from scrolling while dragging on touch devices */}
+      touch-action:none;
 
-        &.isResizing {
-          background: red;
-        }
+      &.isResizing {
+        background: red;
       }
+    }
   }
 `;
 
@@ -58,6 +61,9 @@ const BlockStyles = styled.div`
     border-spacing: 0;
 
     .tr {
+      :hover {
+        background-color: #fff3e3;
+      }
       :last-child {
         .td {
           border-bottom: 0;
@@ -65,19 +71,27 @@ const BlockStyles = styled.div`
       }
     }
 
-    .th,
+    .th {
+      margin: auto;
+      padding-bottom:0.5rem;
+      padding-top:0.5rem;
+      :last-child {
+        border-right: 0;
+      }
+    }
     .td {
       margin: auto;
       display:flex;
       justify-content:space-between;
       padding: 0.5rem;
+      
       :last-child {
         border-right: 0;
       }
     }
     .resizer {
         display: inline-block;
-        background: blue;
+        background: #dee2e6;
         width: 10px;
         height: 100%;
         position: absolute;
@@ -85,11 +99,11 @@ const BlockStyles = styled.div`
         top: 0;
         /* transform: translateX(50%); */
         z-index: 1;
-        ${'' /* prevents from scrolling while dragging on touch devices */}
+        ${"" /* prevents from scrolling while dragging on touch devices */}
         touch-action:none;
 
         &.isResizing {
-          background: red;
+          background: #fff8ee;
         }
       }
   }
